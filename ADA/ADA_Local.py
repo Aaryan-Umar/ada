@@ -1,4 +1,5 @@
 import ollama
+from ollama import Client
 import asyncio
 import pyaudio
 from RealtimeSTT import AudioToTextRecorder
@@ -11,7 +12,7 @@ from .WIDGETS import system, timer, project, camera
 
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 VOICE_ID = 'pFZP5JQG7iQjIQuC4Bku'
-
+ollamaServerIP="10.0.0.61"
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 SEND_SAMPLE_RATE = 16000
