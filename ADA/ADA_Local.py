@@ -68,6 +68,11 @@ class ADA:
                 Args:
                     folder_name (str): The name of the project folder to create.
                 """
+
+
+
+            def get_time() -> str:
+                """Returns the current time. Prints the current time"""
         ```
 
         User: {user_message}
@@ -83,7 +88,7 @@ class ADA:
         self.response_queue = asyncio.Queue()
         self.audio_queue = asyncio.Queue()
         self.recorder_config = {
-            'model': 'large-v3',
+            'model': 'base.en',
             'spinner': False,
             'language': 'en',
             'silero_sensitivity': 0.01,
@@ -98,7 +103,8 @@ class ADA:
         }
 
         try:
-            self.recorder = AudioToTextRecorder(**self.recorder_config)
+            self.recorder = AudioToTextRecorder(**self.reco
+            rder_config)
         except Exception as e:
             print(f"Error initializing AudioToTextRecorder: {e}")
             self.recorder = None  # Or handle this appropriately
@@ -142,6 +148,7 @@ class ADA:
                 continue  # Continue the loop even if there's an error
 
     async def send_prompt(self):
+        client = Client(host=f'http://{ollamaServerIP}:11434')  # Or your Ollama server URL
         while True:
             try:
                 prompt = await self.input_queue.get()
@@ -152,7 +159,7 @@ class ADA:
                 
                 messages = [{"role": "system", "content": self.system_behavior}] + self.conversation_history + [{"role": "user", "content": self.instruction_prompt_with_function_calling.format(user_message=prompt)}]
                 try:
-                    response = ollama.chat(model=self.model, messages=messages, stream=True)
+                    response = client.chat(model=self.model, messages=messages, stream=True)
                     full_response = ""
                     in_function_call = False
                     function_call = ""
@@ -167,7 +174,7 @@ class ADA:
 
                                 messages = [{"role": "system", "content": self.system_behavior}] + self.conversation_history + [{"role": "user", "content": self.instruction_prompt_with_function_calling.format(user_message=tool_output)}]
                                 
-                                response = ollama.chat(model=self.model, messages=messages, stream=True)
+                                response = client.chat(model=self.model, messages=messages, stream=True)
                                 for chunk in response:
                                     chunk_content = chunk['message']['content']
                                     print(chunk_content, end="", flush=True)

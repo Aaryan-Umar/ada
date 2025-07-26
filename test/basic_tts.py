@@ -6,7 +6,7 @@ if __name__ == "__main__":
         yield "With a local, neuronal, cloned voice. So every spoken sentence sounds unique."
 
     # for normal use with minimal logging:
-    engine = CoquiEngine()
+    engine = SystemEngine()
 
     # test with extended logging:
     # import logging
