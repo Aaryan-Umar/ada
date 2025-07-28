@@ -1,3 +1,9 @@
+cd C:\Windows\System32\lxss\lib
+del libcuda.so
+del libcuda.so.1
+mklink libcuda.so libcuda.so.1.1
+mklink libcuda.so.1 libcuda.so.1.1
+
 # ADA (Advanced Design Assistant)
 
 ADA is a helpful AI assistant specializing in STEM fields, designed to provide concise and accurate information and assist with various tasks through voice or text interaction. ADA comes in two versions: a local version (`ada_local`) that runs primarily on your machine and an online version (`ada_online`) that utilizes cloud-based services. A separate multimodal live demo (`multimodal_live_api.py`) is also included, showcasing real-time audio and video interaction.
